@@ -1,0 +1,17 @@
+{
+  "name": "voxel-console",
+  "description": "",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:deathcap/voxel-console.git"
+  },
+  "keywords": [
+    "voxel"
+  ],
+  "dependencies": {
+  },
+  "peerDependencies": {
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,6 @@
+# voxel-console
+
+## License
+
+MIT
+
