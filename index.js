@@ -16,9 +16,17 @@
     __extends(Console, _super);
 
     function Console(game, opts) {
-      var _this = this;
+      var _base,
+        _this = this;
       this.game = game;
       this.opts = opts;
+      if ((_base = this.opts).includeTextBindings == null) {
+        _base.includeTextBindings = {
+          'console': void 0,
+          console2: '/',
+          console3: '.'
+        };
+      }
       this.widget = ConsoleWidget(this.opts);
       this.widget.on('input', function(text) {
         return _this.widget.log("You said: " + text);
@@ -31,14 +39,12 @@
 
     Console.prototype.bindKeys = function() {
       var _this = this;
-      this.game.buttons.down.on('console', function() {
-        return _this.open();
-      });
-      this.game.buttons.down.on('console2', function() {
-        return _this.open('/');
-      });
-      return this.game.buttons.down.on('console3', function() {
-        return _this.open('.');
+      return ['console', 'console2', 'console3'].forEach(function(binding) {
+        return _this.game.buttons.down.on(binding, function() {
+          var initialText;
+          initialText = _this.opts.includeTextBindings[binding];
+          return _this.open(initialText);
+        });
       });
     };
 

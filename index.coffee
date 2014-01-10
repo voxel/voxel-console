@@ -6,6 +6,12 @@ module.exports = (game, opts) -> new Console(game, opts)
 
 class Console extends Modal
   constructor: (@game, @opts) ->
+
+    @opts.includeTextBindings ?= {
+      'console': undefined,
+      console2: '/',
+      console3: '.'}
+
     @widget = ConsoleWidget(@opts)
     @widget.on 'input', (text) =>
       @widget.log "You said: #{text}"
@@ -15,18 +21,14 @@ class Console extends Modal
     super game, {element: @widget.containerNode}
 
   bindKeys: () ->
-    #@game.buttons.bindings.console ?= 'T'
+    #@game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
     #@game.buttons.bindings.console2 ?= '/'
     #@game.buttons.bindings.console3 ?= '.'
 
-    @game.buttons.down.on 'console', () =>
-      @open()
-    
-    @game.buttons.down.on 'console2', () =>
-      @open('/')
-
-    @game.buttons.down.on 'console3', () =>
-      @open('.')
+    ['console', 'console2', 'console3'].forEach (binding) =>
+      @game.buttons.down.on binding, () =>
+        initialText = @opts.includeTextBindings[binding]
+        @open(initialText)
 
   open: (initialText=undefined) ->
     super()
