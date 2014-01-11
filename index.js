@@ -16,7 +16,7 @@
     __extends(Console, _super);
 
     function Console(game, opts) {
-      var _base;
+      var widgetOpts, _base;
       this.game = game;
       this.opts = opts;
       if ((_base = this.opts).includeTextBindings == null) {
@@ -26,7 +26,9 @@
           console3: '.'
         };
       }
-      this.widget = ConsoleWidget(this.opts);
+      widgetOpts = this.opts;
+      widgetOpts.closeKeys = [];
+      this.widget = ConsoleWidget(widgetOpts);
       this.bindKeys();
       Console.__super__.constructor.call(this, game, {
         element: this.widget.containerNode
@@ -53,8 +55,7 @@
     };
 
     Console.prototype.close = function() {
-      Console.__super__.close.call(this);
-      return this.widget.close();
+      return Console.__super__.close.call(this);
     };
 
     Console.prototype.log = function(text) {

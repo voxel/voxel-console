@@ -12,7 +12,12 @@ class Console extends Modal
       console2: '/',
       console3: '.'}
 
-    @widget = ConsoleWidget(@opts)
+    # options for ConsoleWidget
+    widgetOpts = @opts  # pass through voxel-console opts (no need to copy)
+  
+    # nothing closes the widget, hide/show is handled by voxel-modal
+    widgetOpts.closeKeys = []
+    @widget = ConsoleWidget(widgetOpts)
     #@widget.on 'input', (text) =>  # TODO: handle events, pass up?
     #  @widget.log "You said: #{text}"
 
@@ -37,8 +42,7 @@ class Console extends Modal
 
   close: () ->
     super()
-
-    @widget.close()
+    #@widget.close()  # modal hides everything
 
   log: (text) ->
     @widget.log(text)
