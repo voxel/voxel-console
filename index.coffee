@@ -31,6 +31,10 @@ class Console extends Modal
     #@game.buttons.bindings.console3 ?= '.'
 
     ['console', 'console2', 'console3'].forEach (binding) =>
+
+      if not @game.buttons.down?
+        throw 'voxel-console requires @game.buttons set to kb-bindings instance (vs kb-controls)'
+
       @game.buttons.down.on binding, () =>
         initialText = @opts.includeTextBindings[binding]
         @open(initialText)
