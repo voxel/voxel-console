@@ -16,8 +16,7 @@
     __extends(Console, _super);
 
     function Console(game, opts) {
-      var _base,
-        _this = this;
+      var _base;
       this.game = game;
       this.opts = opts;
       if ((_base = this.opts).includeTextBindings == null) {
@@ -28,9 +27,6 @@
         };
       }
       this.widget = ConsoleWidget(this.opts);
-      this.widget.on('input', function(text) {
-        return _this.widget.log("You said: " + text);
-      });
       this.bindKeys();
       Console.__super__.constructor.call(this, game, {
         element: this.widget.containerNode
@@ -63,6 +59,10 @@
 
     Console.prototype.log = function(text) {
       return this.widget.log(text);
+    };
+
+    Console.prototype.logNode = function(node) {
+      return this.widget.logNode(node);
     };
 
     return Console;

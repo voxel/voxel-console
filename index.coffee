@@ -13,8 +13,8 @@ class Console extends Modal
       console3: '.'}
 
     @widget = ConsoleWidget(@opts)
-    @widget.on 'input', (text) =>
-      @widget.log "You said: #{text}"
+    #@widget.on 'input', (text) =>  # TODO: handle events, pass up?
+    #  @widget.log "You said: #{text}"
 
     @bindKeys()
 
@@ -42,4 +42,7 @@ class Console extends Modal
 
   log: (text) ->
     @widget.log(text)
+
+  logNode: (node) ->
+    @widget.logNode(node)
 
