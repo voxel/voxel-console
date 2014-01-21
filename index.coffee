@@ -6,6 +6,7 @@ module.exports = (game, opts) -> new Console(game, opts)
 
 class Console extends Modal
   constructor: (@game, @opts) ->
+    return if not @game.isClient
 
     @opts.includeTextBindings ?= {
       'console': undefined,

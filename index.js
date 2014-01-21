@@ -19,6 +19,9 @@
       var widgetOpts, _base;
       this.game = game;
       this.opts = opts;
+      if (!this.game.isClient) {
+        return;
+      }
       if ((_base = this.opts).includeTextBindings == null) {
         _base.includeTextBindings = {
           'console': void 0,
