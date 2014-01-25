@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "voxel-modal": "~0.1.1",
-    "console-widget": "git://github.com/deathcap/console-widget.git#b2c1533aef0c0a21a879c904b988c4af8a059b53"
+    "console-widget": "~0.1.0"
   },
   "peerDependencies": {
   },
