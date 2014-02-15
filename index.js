@@ -42,7 +42,7 @@
       return ['console', 'console2', 'console3'].forEach((function(_this) {
         return function(binding) {
           if (_this.game.buttons.down == null) {
-            throw 'voxel-console requires @game.buttons set to kb-bindings instance (vs kb-controls)';
+            throw new Error('voxel-console requires @game.buttons set to kb-bindings instance (vs kb-controls)');
           }
           return _this.game.buttons.down.on(binding, function() {
             var initialText;
