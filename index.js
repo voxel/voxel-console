@@ -12,11 +12,15 @@
     return new Console(game, opts);
   };
 
+  module.exports.pluginInfo = {
+    loadAfter: ['voxel-keys']
+  };
+
   Console = (function(_super) {
     __extends(Console, _super);
 
     function Console(game, opts) {
-      var widgetOpts, _base;
+      var widgetOpts, _base, _ref;
       this.game = game;
       this.opts = opts;
       if (!this.game.isClient) {
@@ -32,6 +36,13 @@
       widgetOpts = this.opts;
       widgetOpts.closeKeys = [];
       this.widget = ConsoleWidget(widgetOpts);
+      this.keys = (function() {
+        if ((_ref = game.plugins.get('voxel-keys')) != null) {
+          return _ref;
+        } else {
+          throw new Error('voxel-console requires voxel-keys plugin');
+        }
+      })();
       this.bindKeys();
       Console.__super__.constructor.call(this, game, {
         element: this.widget.containerNode
@@ -41,10 +52,7 @@
     Console.prototype.bindKeys = function() {
       return ['console', 'console2', 'console3'].forEach((function(_this) {
         return function(binding) {
-          if (_this.game.buttons.down == null) {
-            throw new Error('voxel-console requires @game.buttons set to kb-bindings instance (vs kb-controls)');
-          }
-          return _this.game.buttons.down.on(binding, function() {
+          return _this.keys.down.on(binding, function() {
             var initialText;
             initialText = _this.opts.includeTextBindings[binding];
             return _this.open(initialText);

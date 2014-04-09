@@ -3,6 +3,8 @@ Modal = require 'voxel-modal'
 ConsoleWidget = require 'console-widget'
 
 module.exports = (game, opts) -> new Console(game, opts)
+module.exports.pluginInfo =
+  loadAfter: ['voxel-keys']
 
 class Console extends Modal
   constructor: (@game, @opts) ->
@@ -22,21 +24,18 @@ class Console extends Modal
     #@widget.on 'input', (text) =>  # TODO: handle events, pass up?
     #  @widget.log "You said: #{text}"
 
+    @keys = game.plugins.get('voxel-keys') ? throw new Error('voxel-console requires voxel-keys plugin')
     @bindKeys()
 
     super game, {element: @widget.containerNode}
 
   bindKeys: () ->
     #@game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
-    #@game.buttons.bindings.console2 ?= '/'
+    #@game.buttons.bindings.console2 ?= '/'  # maybe with game-shell, game.shell.bind()
     #@game.buttons.bindings.console3 ?= '.'
 
     ['console', 'console2', 'console3'].forEach (binding) =>
-
-      if not @game.buttons.down?
-        throw new Error('voxel-console requires @game.buttons set to kb-bindings instance (vs kb-controls)')
-
-      @game.buttons.down.on binding, () =>
+      @keys.down.on binding, () =>
         initialText = @opts.includeTextBindings[binding]
         @open(initialText)
 
