@@ -10,8 +10,8 @@
     "voxel"
   ],
   "dependencies": {
-    "voxel-modal": "~0.1.1",
-    "console-widget": "~0.1.0"
+    "voxel-modal": "^0.2.2",
+    "console-widget": "^0.2.0"
   },
   "peerDependencies": {},
   "license": "MIT"
