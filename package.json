@@ -1,7 +1,7 @@
 {
   "name": "voxel-console",
   "description": "",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "console.coffee",
   "repository": {
     "type": "git",
@@ -17,7 +17,9 @@
     "console-widget": "^0.2.1"
   },
   "browserify": {
-    "transform": [ "coffeeify" ]
+    "transform": [
+      "coffeeify"
+    ]
   },
   "license": "MIT"
 }
