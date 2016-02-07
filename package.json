@@ -1,7 +1,7 @@
 {
   "name": "voxel-console",
   "description": "",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "console.coffee",
   "repository": {
     "type": "git",
