@@ -2,7 +2,7 @@
   "name": "voxel-console",
   "description": "",
   "version": "0.2.3",
-  "main": "console.coffee",
+  "main": "console.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/voxel-console.git"
