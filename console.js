@@ -1,56 +1,64 @@
+'use strict';
 
-Modal = require 'voxel-modal'
-ConsoleWidget = require 'console-widget'
+const Modal = require('voxel-modal');
+const ConsoleWidget = require('console-widget');
 
-module.exports = (game, opts) -> new Console(game, opts)
-module.exports.pluginInfo =
+module.exports = (game, opts) => new Console(game, opts);
+module.exports.pluginInfo = {
   loadAfter: ['voxel-keys']
+};
 
-class Console extends Modal
-  constructor: (@game, @opts) ->
-    return if not @game.isClient
+class Console extends Modal {
+  constructor(game, opts) {
+    this.game = game;
+    this.opts = opts;
+    if (!game.isClient) return;
 
-    @opts.includeTextBindings ?= {
-      'console': undefined,
-      console2: '/',
-      console3: '.'}
+    if (!opts.includeTextBindings) {
+      opts.includeTextBindings = {
+        'console': undefined,
+        console2: '/',
+        console3: '.'};
+    }
 
-    # options for ConsoleWidget
-    widgetOpts = @opts  # pass through voxel-console opts (no need to copy)
+    // options for ConsoleWidget
+    const widgetOpts = this.opts;  // pass through voxel-console opts (no need to copy)
   
-    # nothing closes the widget, hide/show is handled by voxel-modal
-    widgetOpts.closeKeys = []
-    @widget = ConsoleWidget(widgetOpts)
-    #@widget.on 'input', (text) =>  # TODO: handle events, pass up?
-    #  @widget.log "You said: #{text}"
+    // nothing closes the widget, hide/show is handled by voxel-modal
+    widgetOpts.closeKeys = [];
+    this.widget = ConsoleWidget(widgetOpts);
+    //this.widget.on 'input', (text) =>  # TODO: handle events, pass up?
+    //  this.widget.log "You said: #{text}"
 
-    @keys = game.plugins.get('voxel-keys') ? throw new Error('voxel-console requires voxel-keys plugin')
-    @bindKeys()
+    this.keys = game.plugins.get('voxel-keys');
+    if (!this.keys) throw new Error('voxel-console requires voxel-keys plugin');
+    this.bindKeys();
 
-    super game, {element: @widget.containerNode}
+    // TODO: move constructor up before (this.) references :/
+    super game, {element: this.widget.containerNode}
 
   bindKeys: () ->
-    #@game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
-    #@game.buttons.bindings.console2 ?= '/'  # maybe with game-shell, game.shell.bind()
-    #@game.buttons.bindings.console3 ?= '.'
+    #this.game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
+    #this.game.buttons.bindings.console2 ?= '/'  # maybe with game-shell, game.shell.bind()
+    #this.game.buttons.bindings.console3 ?= '.'
 
     ['console', 'console2', 'console3'].forEach (binding) =>
-      @keys.down.on binding, () =>
-        initialText = @opts.includeTextBindings[binding]
-        @open(initialText)
+      this.keys.down.on binding, () =>
+        initialText = this.opts.includeTextBindings[binding]
+        this.open(initialText)
 
   open: (initialText=undefined) ->
     super()
 
-    @widget.open(initialText)
+    this.widget.open(initialText)
 
   close: () ->
     super()
-    #@widget.close()  # modal hides everything
+    #this.widget.close()  # modal hides everything
 
   log: (text) ->
-    @widget.log(text)
+    this.widget.log(text)
 
   logNode: (node) ->
-    @widget.logNode(node)
+    this.widget.logNode(node)
 

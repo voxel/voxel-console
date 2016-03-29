@@ -16,10 +16,5 @@
     "voxel-modal": "^0.2.2",
     "console-widget": "^0.2.2"
   },
-  "browserify": {
-    "transform": [
-      "coffeeify"
-    ]
-  },
   "license": "MIT"
 }
