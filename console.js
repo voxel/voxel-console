@@ -10,9 +10,20 @@ module.exports.pluginInfo = {
 
 class Console extends Modal {
   constructor(game, opts) {
+    if (!game.isClient) return;
+
+    // options for ConsoleWidget
+    const widgetOpts = opts;  // pass through voxel-console opts (no need to copy)
+
+    // nothing closes the widget, hide/show is handled by voxel-modal
+    widgetOpts.closeKeys = [];
+
+    const widget = ConsoleWidget(widgetOpts);
+
+    super(game, {element: widget.containerNode});
+
     this.game = game;
     this.opts = opts;
-    if (!game.isClient) return;
 
     if (!opts.includeTextBindings) {
       opts.includeTextBindings = {
@@ -21,44 +32,44 @@ class Console extends Modal {
         console3: '.'};
     }
 
-    // options for ConsoleWidget
-    const widgetOpts = this.opts;  // pass through voxel-console opts (no need to copy)
-  
-    // nothing closes the widget, hide/show is handled by voxel-modal
-    widgetOpts.closeKeys = [];
-    this.widget = ConsoleWidget(widgetOpts);
+    this.widget = widget;
     //this.widget.on 'input', (text) =>  # TODO: handle events, pass up?
     //  this.widget.log "You said: #{text}"
 
     this.keys = game.plugins.get('voxel-keys');
     if (!this.keys) throw new Error('voxel-console requires voxel-keys plugin');
     this.bindKeys();
+  }
+   
+  bindKeys() {
+    //this.game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
+    //this.game.buttons.bindings.console2 ?= '/'  # maybe with game-shell, game.shell.bind()
+    //this.game.buttons.bindings.console3 ?= '.'
 
-    // TODO: move constructor up before (this.) references :/
-    super game, {element: this.widget.containerNode}
+    ['console', 'console2', 'console3'].forEach((binding) => {
+      this.keys.down.on(binding, () => {
+        const initialText = this.opts.includeTextBindings[binding];
+        this.open(initialText);
+      });
+    });
+  }
 
-  bindKeys: () ->
-    #this.game.buttons.bindings.console ?= 'T' # TODO: bind these keys ourselves?
-    #this.game.buttons.bindings.console2 ?= '/'  # maybe with game-shell, game.shell.bind()
-    #this.game.buttons.bindings.console3 ?= '.'
+  open(initialText) {
+    super.open();
 
-    ['console', 'console2', 'console3'].forEach (binding) =>
-      this.keys.down.on binding, () =>
-        initialText = this.opts.includeTextBindings[binding]
-        this.open(initialText)
+    this.widget.open(initialText);
+  }
 
-  open: (initialText=undefined) ->
-    super()
+  close() {
+    super.close();
+    //this.widget.close();  // modal hides everything
+  }
 
-    this.widget.open(initialText)
+  log(text) {
+    this.widget.log(text);
+  }
 
-  close: () ->
-    super()
-    #this.widget.close()  # modal hides everything
-
-  log: (text) ->
-    this.widget.log(text)
-
-  logNode: (node) ->
-    this.widget.logNode(node)
-
+  logNode(node) {
+    this.widget.logNode(node);
+  }
+}
