@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "voxel-modal": "^0.2.2",
-    "console-widget": "^0.2.2"
+    "console-widget": "^1.0.0"
   },
   "license": "MIT"
 }
