@@ -1,7 +1,7 @@
 {
   "name": "voxel-console",
   "description": "",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "main": "console.js",
   "repository": {
     "type": "git",
