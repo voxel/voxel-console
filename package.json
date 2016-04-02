@@ -1,8 +1,8 @@
 {
   "name": "voxel-console",
   "description": "",
-  "version": "0.2.3",
-  "main": "console.coffee",
+  "version": "1.0.0",
+  "main": "console.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/voxel-console.git"
@@ -13,13 +13,8 @@
     "console"
   ],
   "dependencies": {
-    "voxel-modal": "^0.2.2",
-    "console-widget": "^0.2.2"
-  },
-  "browserify": {
-    "transform": [
-      "coffeeify"
-    ]
+    "voxel-modal": "^0.2.7",
+    "console-widget": "^1.0.0"
   },
   "license": "MIT"
 }
